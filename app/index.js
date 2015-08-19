@@ -142,7 +142,7 @@ module.exports = generators.Base.extend({
       console.log(chalk.yellow('Or install plugins direct from source: ') + chalk.green('grunt plugin:add:https://github.com/apache/cordova-plugin-console.git\n'));
       if (this.plugins.length > 0) {
         console.log(chalk.yellow('Installing selected Cordova plugins, please wait.'));
-        
+
         // Turns out plugin() doesn't accept a callback so we try/catch instead
         try {
           cordova.plugin('add', this.plugins);
@@ -165,7 +165,7 @@ module.exports = generators.Base.extend({
 
         // Template remote initialization: Copy from remote root folder (.) to working directory (/app)
         remote.directory('.', 'app');
- 
+
         this.starterCache = remote.cachePath;
         done();
       }.bind(this);
@@ -186,11 +186,11 @@ module.exports = generators.Base.extend({
     },
 
     appJs: function appJs() {
-     
+
       var scriptPrefix = 'js' + path.sep;
 
       var scripts = [scriptPrefix + 'configuration.js'];
-      
+
       this.fs.store.each(function (file, index) {
         if (file.path.indexOf('.js') !== -1)
         {
@@ -205,26 +205,26 @@ module.exports = generators.Base.extend({
     },
 
     createIndexHtml: function createIndexHtml() {
-             
+
         // Regex: Vendor CSS
         this.indexFile = this.indexFile.replace(/<link href="lib\/ionic\/css\/ionic.css" rel="stylesheet">/g, "<!-- build:css styles\/vendor.css -->\n    <!-- bower:css -->\n    <!-- endbower -->\n    <!-- endbuild -->");
-        
+
         // Regex: User CSS
         //this.indexFile = this.indexFile.replace(/<link href="css\/style.css" rel="stylesheet">/g, "<!-- build:css styles\/vendor.css -->\n    <!-- bower:css -->\n    <!-- endbower -->\n    <!-- endbuild -->");
-        
+
         // Regex: Vendor scripts (vendor.js)
         this.indexFile = this.indexFile.replace(/<script src="lib\/ionic\/js\/ionic.bundle.js"><\/script>/g, "<!-- build:js scripts\/vendor.js -->\n    <!-- bower:js -->\n    <!-- endbower -->\n    <!-- endbuild -->");
-      
+
        // Regex: User scripts (scripts.js)
        this.indexFile = this.indexFile.replace(/<!-- your app's js -->/g,"<!-- your app's js -->\n    <!-- build:js scripts\/scripts.js -->");
        this.indexFile = this.indexFile.replace(/<\/head>/g,"  <script src=\"scripts\/configuration.js\"><\/script>\n    <!-- endbuild -->\n  <\/head>");
-       
+
        // Regex/Rename: Scripts path (Ionics 'js' to 'scripts')
        this.indexFile = this.indexFile.replace(/href="css/g,"href=\"styles");
-       
+
        // Regex/Rename: CSS path (Ionics 'css' to 'styles')
        this.indexFile = this.indexFile.replace(/src="js/g,"src=\"scripts");
-     
+
        // Write index.html
        this.indexFile = this.indexFile.replace(/&apos;/g, "'");
        this.write(path.join(this.appPath, 'index.html'), this.indexFile);
@@ -235,7 +235,7 @@ module.exports = generators.Base.extend({
       // have any styles. In the case it does, the starter should
       // supply both main.css and main.scss files, one of which
       // will be deleted
-      
+
       var cssFile = 'main.' + (this.compass ? 'scss' : 'css');
       var unusedFile = 'main.' + (this.compass ? 'css' : 'scss');
       var stylePath = path.join(process.cwd(), 'app', 'css');
@@ -279,12 +279,12 @@ module.exports = generators.Base.extend({
       fs.rename(path.join(appPath, 'css'), path.join(appPath, 'styles'), function(err) {
           if ( err ) console.log('ERROR: ' + err);
       });
-      
+
       // Rename: CSS path (Ionics 'css' to 'styles')
       fs.rename(path.join(appPath, 'js'), path.join(appPath, 'scripts'), function(err) {
           if ( err ) console.log('ERROR: ' + err);
       });
-      
+
       // Rename: Images path (Ionics 'img' to 'images')
       fs.rename(path.join(appPath, 'img'), path.join(appPath, 'images'), function(err) {
           if ( err ) console.log('ERROR: ' + err);
